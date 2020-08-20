@@ -568,13 +568,13 @@ def generate_random_sequence(length = 2000): # remember to change data_dim to 20
         # write x[t] = pyro.sample(...x[t-1]...).
         state_x = pyro.sample("x_{}".format(t), dist.Categorical(probs_equal))
         
-        phi = pyro.sample("y_phi_{}".format(t), dist.VonMises(
-                loc = probs_y_means[ state_x, 0], 
-                concentration = probs_y_k1k2[state_x, 0]))
+        phi = pyro.sample("y_phi_{}".format(t), dist.Normal(
+                probs_y_means[ state_x, 0], 
+                probs_y_k1k2[state_x, 0]))
             
-        psi = pyro.sample("y_psi_{}".format(t), dist.VonMises(
-                loc = probs_y_means[state_x, 1], 
-                concentration = probs_y_k1k2[state_x, 1]))
+        psi = pyro.sample("y_psi_{}".format(t), dist.Normal(
+                probs_y_means[state_x, 1], 
+                probs_y_k1k2[state_x, 1]))
         
         
         
